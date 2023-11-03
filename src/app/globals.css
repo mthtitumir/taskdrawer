@@ -2,26 +2,50 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+* {
+    color: white;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.c-auto {
+    @apply container mx-auto;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.fji {
+    @apply flex justify-center items-center;
+}
+
+.bgc {
+    background: rgb(63, 0, 53);
+    background: linear-gradient(84deg, rgba(63, 0, 53, 1) 0%, rgba(50, 0, 88, 1) 36%, rgb(35, 8, 118) 100%);
+}
+
+.bgc2 {
+    background: rgb(230, 43, 6);
+    background: linear-gradient(84deg, rgba(230, 43, 6, 1) 0%, rgb(185, 13, 156) 100%);
+}
+
+.tasks-bgc {
+    background: #000428;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to top, #004e92, #000428);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to top, #004e92, #000428);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.color1 {
+    @apply bg-gradient-to-r from-red-600 via-purple-900 to-red-600;
+}
+
+.bgi {
+    background-image: url('https://i.ibb.co/1MpMwS3/6600674-3334896.jpg');
+    background-size: cover;
+}
+
+.gradient-text {
+    background: linear-gradient(84deg, rgba(230, 43, 6, 1) 0%, rgb(242, 21, 154) 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    /* For webkit-based browsers */
+    color: transparent;
 }
