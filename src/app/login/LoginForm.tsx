@@ -5,7 +5,6 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 
 const LoginForm = () => {
@@ -20,7 +19,7 @@ const LoginForm = () => {
         formState: { errors },
     } = useForm();
 
-    const { signIn, googleLogin } = useAuth() || {};
+    const { signIn, googleLogin } : any = useAuth() || {};
     const search = useSearchParams();
     const from = search.get("redirectUrl") || "/";
     const { replace, refresh } = useRouter();
