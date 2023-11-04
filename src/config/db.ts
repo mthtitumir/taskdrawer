@@ -1,16 +1,32 @@
-import { mongoUrl } from "@/libs/secret";
-import mongoose from "mongoose";
+import { mongoURI } from "@/libs/secret";
 
-const connectDB = async (options = {}) => {
+const { MongoClient, ServerApiVersion } = require('mongodb');
+/**
+ * @type {import { "mongodb" }.DB}
+ */
+
+let db:any;
+const DbConnect = async () => {
+    if (db) return db
     try {
-        await mongoose.connect(mongoUrl, options);
-        console.log('DB connection successful!');
-        mongoose.connection.on('error', (error) => {
-            console.error('DB connection error!');
-        })
-    } catch (error:any) {
-        console.error('could not connect to DB!', error.toString());
+        const uri = mongoURI;
+        // Create a MongoClient with a MongoClientOptions object to set the Stable API version
+        const client = new MongoClient(uri, {
+            serverApi: {
+                version: ServerApiVersion.v1,
+                strict: true,
+                deprecationErrors: true,
+            }
+        });
+        db = client.db("taskDrawerDB")
+        await client.db("admin").command({ ping: 1 });
+        console.log("Pinged your deployment. You successfully connected to MongoDB!");
+        return db
+    }
+
+    catch (err) {
+        console.log(err)
     }
 };
 
-export default connectDB;
+export default DbConnect;

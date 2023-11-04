@@ -20,7 +20,7 @@ const LoginForm = () => {
         formState: { errors },
     } = useForm();
 
-    const { signIn, googleLogin } = useAuth();
+    const { signIn, googleLogin } = useAuth() || {};
     const search = useSearchParams();
     const from = search.get("redirectUrl") || "/";
     const { replace, refresh } = useRouter();
@@ -56,8 +56,8 @@ const LoginForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="md:w-1/2 mx-auto">
-            <div className="fji flex-col mx-auto">
-                <div className="mb-3 w-full">
+            <div className="fji flex-col mx-auto ">
+                <div className="mb-3">
                     <label htmlFor="email" className="text-lg">
                         Email
                     </label> <br />
@@ -66,7 +66,7 @@ const LoginForm = () => {
                         placeholder="email"
                         id="email"
                         name="email"
-                        className="bg-inherit border border-gray-500 px-2 py-1 rounded w-1/2"
+                        className="bg-inherit border border-gray-500 px-2 py-1 rounded "
                         autoComplete="email"
                         {...register("email", { required: true })}
                     />

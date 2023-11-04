@@ -1,11 +1,14 @@
-import Image from "next/image"
+"use client"
+import useAuth from "@/hooks/useAuth"
 import PrimaryButton from "../miniComponents/PrimaryButton"
 
 const Navbar = () => {
+  const { user } = useAuth();
+  console.log(user);
+  
   return (
     <div className="flex justify-between items-center c-auto py-3">
       <div>
-        {/* <Image alt="logo" width={50} height={50} src={''} /> */}
         <h1 className="text-2xl">TaskDrawer</h1>
       </div>
       <div>
@@ -17,7 +20,9 @@ const Navbar = () => {
         </ul>
       </div>
       <div>
-        <PrimaryButton href="" text="Login" />
+        {
+          user ? <PrimaryButton href="/home/tasks" text="Add Tasks" /> : <PrimaryButton href="/login" text="Login" />
+        }
       </div>
     </div>
   )

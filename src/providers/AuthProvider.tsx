@@ -16,7 +16,7 @@ interface AuthProviderProps {
 
 const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [user, setUser] = useState<firebase.User | null>(null);
-    console.log(user, "from auth provider");
+    // console.log(user, "from auth provider");
     
     const [loading, setLoading] = useState<boolean>(true);
 
