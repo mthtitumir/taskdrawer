@@ -59,7 +59,7 @@ const TasksHome = () => {
                     </tr>
                 </thead>
                 {
-                    myTasks.length !== 0 ? <tbody>
+                    myTasks?.length !== 0 ? <tbody>
                         {
                             myTasks?.map((task: any) => <tr className="border border-gray-500 py-1" key={task._id}>
                                 <td className="py-2">{task?.taskID}</td>
