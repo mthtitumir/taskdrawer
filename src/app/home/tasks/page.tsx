@@ -13,7 +13,7 @@ const TasksHome = () => {
     const [myTasks, isMyTasksLoading, loading, userAllTaskRefetch] = GetUsersAllTasks();
     const [isOpen, setIsOpen] = useState(false);
     const [editedTask, setEditedTask] = useState(null);
-    console.log(myTasks);
+    // console.log(myTasks);
     const updateTaskStatus = async (id: any, status: any) => {
         const toastId = toast.loading("Loading...");
         try {
@@ -58,31 +58,36 @@ const TasksHome = () => {
                         <th>Edit Task</th>
                     </tr>
                 </thead>
-                <tbody>
-                    {
-                        myTasks?.map((task: any) => <tr className="border border-gray-500 py-1" key={task._id}>
-                            <td className="py-2">{task?.taskID}</td>
-                            <td>{task?.taskName}</td>
-                            <td>{task?.description ? task.description : `Null`}</td>
-                            <td>{task?.deadline}</td>
-                            <td className={task.status == 'completed' ? 'text-green-500' : 'text-orange-500'}>{task?.status}</td>
-                            <td>{task?.priority}</td>
-                            <td>{task?.status == 'completed' ? 'Completed' : <BiSelectMultiple onClick={() => updateTaskStatus(task?.taskID, 'completed')} className="text-lg mx-auto" title={'Mark as Completed'} />}</td>
-                            <td>{task?.status == 'incomplete' ? 'Incomplete' : <ImCross onClick={() => updateTaskStatus(task?.taskID, 'incomplete')} className="text-lg mx-auto" title={'Mark as Incomplete'} />}</td>
-                            <>
-                                <td className="" onClick={() => {
-                                    setEditedTask(task);  // Set the task to be edited
-                                    setIsOpen(!isOpen);     // Open the modal
-                                }}>
-                                    <BiEdit className="text-lg mx-auto text-cyan-500" />
-                                    <Modal isOpen={isOpen} setIsOpen={setIsOpen} >
-                                        <EditTask task={editedTask} />
-                                    </Modal>
-                                </td>
-                            </>
-                        </tr>)
-                    }
-                </tbody>
+                {
+                    myTasks.length !== 0 ? <tbody>
+                        {
+                            myTasks?.map((task: any) => <tr className="border border-gray-500 py-1" key={task._id}>
+                                <td className="py-2">{task?.taskID}</td>
+                                <td>{task?.taskName}</td>
+                                <td>{task?.description ? task.description : `Null`}</td>
+                                <td>{task?.deadline}</td>
+                                <td className={task.status == 'completed' ? 'text-green-500' : 'text-orange-500'}>{task?.status}</td>
+                                <td>{task?.priority}</td>
+                                <td>{task?.status == 'completed' ? 'Completed' : <BiSelectMultiple onClick={() => updateTaskStatus(task?.taskID, 'completed')} className="text-lg mx-auto" title={'Mark as Completed'} />}</td>
+                                <td>{task?.status == 'incomplete' ? 'Incomplete' : <ImCross onClick={() => updateTaskStatus(task?.taskID, 'incomplete')} className="text-lg mx-auto" title={'Mark as Incomplete'} />}</td>
+                                <>
+                                    <td className="" onClick={() => {
+                                        setEditedTask(task);  // Set the task to be edited
+                                        setIsOpen(!isOpen);     // Open the modal
+                                    }}>
+                                        <BiEdit className="text-lg mx-auto text-cyan-500" />
+                                        <Modal isOpen={isOpen} setIsOpen={setIsOpen} >
+                                            <EditTask task={editedTask} />
+                                        </Modal>
+                                    </td>
+                                </>
+                            </tr>)
+                        }
+                    </tbody>
+
+                        :
+                        <p className="text-center">You have to tasks!</p>
+                }
             </table>
         </div>
     )

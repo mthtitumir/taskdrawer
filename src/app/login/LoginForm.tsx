@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { startTransition, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { FcGoogle } from "react-icons/fc";
 
 
@@ -27,16 +28,19 @@ const LoginForm = () => {
     const onSubmit = async (data: any) => {
         const { email, password } = data;
         console.log(data);
-        
+        const toastId = toast.loading('Loading......');
         try {
             const user = await signIn(email, password);
             startTransition(() => {
                 refresh();
                 replace(from);
             });
+            toast.dismiss(toastId);
+            toast.success('Login successful!')
         } catch (error) {
             console.log(error);
-
+            toast.dismiss(toastId);
+            toast.success('Login failed!')
         }
     };
 
