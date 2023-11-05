@@ -4,7 +4,7 @@ import axios from "axios";
 import useAuth from "@/hooks/useAuth";
 
 const GetUsersAllTasks = () => {
-    const { user, loading } = useAuth();
+    const { user, loading }:any = useAuth();
     const { data: myTasks, isLoading: isMyTasksLoading, refetch: userAllTaskRefetch } = useQuery({
         queryKey: ['myTasks', user?.email],
         enabled: !loading,

@@ -1,21 +1,19 @@
 "use client"
 import useAuth from '@/hooks/useAuth';
 import axios from 'axios';
-import moment from 'moment';
 import { useForm } from 'react-hook-form';
 import { toast } from 'react-hot-toast';
-import PrimaryButton from '../miniComponents/PrimaryButton';
 
 
 const AddTask = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
-    const { user } = useAuth();
+    const { user }:any = useAuth();
     const taskID = Math.floor(1000000000 + Math.random() * 9000000000);
     const status = 'incomplete';
     const creatorEmail = user?.email;
     const onSubmit = async (data: any) => {
         const { taskName, description, deadline, priority } = data;
-        const task = { taskID, taskName, description, deadline, status, priority, deadline, creatorEmail };
+        const task = { taskID, taskName, description, deadline, status, priority, creatorEmail };
         console.log(task);
         
         try {
