@@ -1,12 +1,38 @@
 "use client"
 import TasksNavbar from "@/components/Navbar/TasksNavbar"
+import Modal from "@/components/miniComponents/Modal"
 import GetUsersAllTasks from "@/hooks/tanstackHooks/GetUsersAllTasks"
-import { BiSelectMultiple } from 'react-icons/bi'
+import { BiEdit, BiSelectMultiple } from 'react-icons/bi'
 import { ImCross } from 'react-icons/im'
+import { useState } from 'react';
+import EditTask from "@/components/Tasks/EditTask"
+import axios from "axios"
+import toast from "react-hot-toast"
 
 const TasksHome = () => {
-    const [myTasks, isMyTasksLoading, loading] = GetUsersAllTasks();
+    const [myTasks, isMyTasksLoading, loading, userAllTaskRefetch] = GetUsersAllTasks();
+    const [isOpen, setIsOpen] = useState(false);
+    const [editedTask, setEditedTask] = useState(null);
     console.log(myTasks);
+    const updateTaskStatus = async (id: any, status: any) => {
+        const toastId = toast.loading("Loading...");
+        try {
+            const res = await axios.patch(`/api/tasks/task-status-update/${id}`, { status: status })
+            // console.log(res.data, res);
+            if (res.data.modifiedCount) {
+                toast.dismiss(toastId);
+                userAllTaskRefetch();
+                toast.success('Task Updated Successfully!')
+            } else {
+                toast.dismiss(toastId);
+                toast.error('Error updating Task!')
+            }
+        } catch (error: any) {
+            toast.dismiss(toastId);
+            toast.error("Task Update Error", error.message)
+        }
+
+    }
 
     return (
         <div className="tasks-bgc pb-5 min-h-screen">
@@ -29,19 +55,31 @@ const TasksHome = () => {
                         <th>Priority</th>
                         <th>Mark Completed</th>
                         <th>Mark Incomplete</th>
+                        <th>Edit Task</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         myTasks?.map((task: any) => <tr className="border border-gray-500 py-1" key={task._id}>
-                            <th className="py-2">{task?.taskID}</th>
-                            <th>{task?.taskName}</th>
-                            <th>{task?.description ? task.description : `Null`}</th>
-                            <th>{task?.deadline}</th>
-                            <th className={task.status == 'completed' ? 'text-green-500' : 'text-orange-500'}>{task?.status}</th>
-                            <th>{task?.priority}</th>
-                            <th><BiSelectMultiple className="mx-auto text-red-600 font-semibold hover:animate-pulse" /></th>
-                            <th><ImCross className="mx-auto text-center text-red-600 font-semibold hover:animate-pulse hover:text-red-500" /></th>
+                            <td className="py-2">{task?.taskID}</td>
+                            <td>{task?.taskName}</td>
+                            <td>{task?.description ? task.description : `Null`}</td>
+                            <td>{task?.deadline}</td>
+                            <td className={task.status == 'completed' ? 'text-green-500' : 'text-orange-500'}>{task?.status}</td>
+                            <td>{task?.priority}</td>
+                            <td>{task?.status == 'completed' ? 'Completed' : <BiSelectMultiple onClick={() => updateTaskStatus(task?.taskID, 'completed')} className="text-lg mx-auto" title={'Mark as Completed'} />}</td>
+                            <td>{task?.status == 'incomplete' ? 'Incomplete' : <ImCross onClick={() => updateTaskStatus(task?.taskID, 'incomplete')} className="text-lg mx-auto" title={'Mark as Incomplete'} />}</td>
+                            <>
+                                <td className="" onClick={() => {
+                                    setEditedTask(task);  // Set the task to be edited
+                                    setIsOpen(!isOpen);     // Open the modal
+                                }}>
+                                    <BiEdit className="text-lg mx-auto text-cyan-500" />
+                                    <Modal isOpen={isOpen} setIsOpen={setIsOpen} >
+                                        <EditTask task={editedTask} />
+                                    </Modal>
+                                </td>
+                            </>
                         </tr>)
                     }
                 </tbody>

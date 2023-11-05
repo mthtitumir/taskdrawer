@@ -1,5 +1,23 @@
 import DbConnect from "@/config/db";
 import { NextResponse } from "next/server";
+export const GET = async (request: any, { params }: any) => {
+    if (request.method === "GET") {
+        try {
+            const db = await DbConnect();
+            const allTasks = db.collection('all-tasks');
+            // console.log(params);
+            const query = { taskID: parseInt(params?.id) };
+            const result = await allTasks.findOne(query);
+            // console.log(result);
+            return NextResponse.json(result);
+        } catch (error) {
+            console.error("Error deleting task:", error);
+            return NextResponse.json({ error: "Error deleting task" });
+        }
+    } else {
+        return NextResponse.json({ message: "Method not allowed" });
+    }
+}
 export const DELETE = async (request: any, { params }: any) => {
     if (request.method === "DELETE") {
         try {
@@ -12,10 +30,10 @@ export const DELETE = async (request: any, { params }: any) => {
             return NextResponse.json(result);
         } catch (error) {
             console.error("Error deleting task:", error);
-            NextResponse.json({ error: "Error deleting task" });
+            return NextResponse.json({ error: "Error deleting task" });
         }
     } else {
-        NextResponse.json({ message: "Method not allowed" });
+        return NextResponse.json({ message: "Method not allowed" });
     }
 }
 
@@ -31,9 +49,9 @@ export const PUT = async (request:any, { params }:any) => {
             return NextResponse.json(result);
         } catch (error) {
             console.error("Error updating task:", error);
-            NextResponse.json({ error: "Error updating task" });
+            return NextResponse.json({ error: "Error updating task" });
         }
     } else {
-        NextResponse.json({ message: "Method not allowed" });
+        return NextResponse.json({ message: "Method not allowed" });
     }
 }

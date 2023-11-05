@@ -5,7 +5,7 @@ import useAuth from "@/hooks/useAuth";
 
 const GetUsersAllTasks = () => {
     const { user, loading } = useAuth();
-    const { data: myTasks, isLoading: isMyTasksLoading } = useQuery({
+    const { data: myTasks, isLoading: isMyTasksLoading, refetch: userAllTaskRefetch } = useQuery({
         queryKey: ['myTasks', user?.email],
         enabled: !loading,
         queryFn: async () => {
@@ -13,6 +13,6 @@ const GetUsersAllTasks = () => {
             return res.data;
         }
     })
-    return [myTasks, isMyTasksLoading, loading];
+    return [myTasks, isMyTasksLoading, loading, userAllTaskRefetch];
 }
 export default GetUsersAllTasks;

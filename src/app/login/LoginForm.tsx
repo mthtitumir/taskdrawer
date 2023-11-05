@@ -64,7 +64,6 @@ const LoginForm = () => {
                         type="email"
                         placeholder="email"
                         id="email"
-                        name="email"
                         className="bg-inherit border border-gray-500 px-2 py-1 rounded "
                         autoComplete="email"
                         {...register("email", { required: true })}
@@ -84,7 +83,6 @@ const LoginForm = () => {
                             type={show ? "text" : "password"}
                             placeholder="password"
                             id="password"
-                            name="password"
                             className="bg-inherit border border-gray-500 px-2 py-1 rounded "
                             autoComplete="new-password"
                             {...register("password", { required: true, minLength: 6 })}
