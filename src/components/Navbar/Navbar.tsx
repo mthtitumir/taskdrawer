@@ -3,7 +3,7 @@ import useAuth from "@/hooks/useAuth"
 import PrimaryButton from "../miniComponents/PrimaryButton"
 
 const Navbar = () => {
-  const { user } = useAuth();
+  const { user }: any = useAuth();
   console.log(user);
   
   return (
